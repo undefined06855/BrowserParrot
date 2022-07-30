@@ -43,7 +43,7 @@
             var curframe = 0
               , curcol   = 0
 
-            reponse = fetch("./frames/frames.json")
+            reponse = fetch("./frames.json")
             .then(response => response = response.json())
             .then(response => main(response))
 
