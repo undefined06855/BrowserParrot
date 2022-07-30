@@ -15,15 +15,18 @@
         <meta name="language" content="English">
         <meta name="revisit-after" content="0 days">
         <meta name="author" content="undefined06855">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <style>
+
+            @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
 
             * {
                 margin: 0px;
                 padding: 0px;
                 user-select: none;
 
-                font-family: "Courier New", Courier, monospace;
+                font-family: "Ubuntu Mono", "Courier New", Courier, monospace;
             }
 
             body {
@@ -43,12 +46,11 @@
             div {
                 white-space: pre;
 
-                font-size: 0.8em;
-
                 width: auto;
                 height: auto;
                 
                 text-align: center;
+                cursor: none;
             }
 
             a {
@@ -58,7 +60,8 @@
                 bottom: 0;
                 left: 0;
 
-                width: 100vw;
+                width: 25vw;
+                transform: translateX(37.5vw);
                 height: 40px;
                 
                 background-image: url(./GitHub-Mark-Light-120px-plus.png);
@@ -70,20 +73,48 @@
                 transition: opacity linear .15s;
 
                 text-decoration: none;
+
+                cursor: pointer;
             }
 
             a:hover { opacity: 1; }
+
+            #bottom, #bottomLeft {
+                color: #fff;
+                opacity: 0.3;
+
+                font-size: 0.8em;
+
+                position: fixed;
+
+                text-align: center;
+            }
+
+            #bottom { bottom: 50px; }
+            #bottomLeft { bottom: 5px; left: 7px;}
+
+            input[type="checkbox"] {
+                vertical-align: middle;
+            }
         </style>
     </head>
 
     <body>
         <div id="text-wrapper">
-            <div>Something went wrong... <noscript>Try enabling javascript in your browser settings.</noscript></div>
+            <div style="font-size: 1em">Something went wrong... <noscript>Try enabling javascript in your browser settings.</noscript></div>
         </div>
 
-        <a href="https://github.com/undefined06855/BrowserParrot"></a>
+        <a title="Github Repo" rel="alternate external" href="https://github.com/undefined06855/BrowserParrot"></a>
+
+        <span id="bottom"></span>
+        <span id="bottomLeft">
+            <input type="checkbox" onchange="buffer.style.fontSize=this.checked?'0.5em':'1em'" id="smallbox" />
+            <label for="smallbox">small</label>
+        </span>
 
         <script>
+
+            document.getElementById("bottom").innerText = "WebParrot 1.0\n" + navigator.userAgent;
 
             var curframe = 0
               , curcol   = 0
@@ -102,7 +133,7 @@
                     "cyan",
                     "white"
                 ]
-
+            
             // https://stackoverflow.com/a/12646864
             // Randomises color order
             for(let i=cols.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cols[i],cols[j]]=[cols[j],cols[i]];}
