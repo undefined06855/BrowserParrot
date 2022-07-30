@@ -2,41 +2,102 @@
 
 <html>
     <head>
-        <title> Dancing parrot 🦜</title>
+        <title> Dancing parrot 🦜 </title>
+
+        <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico?" />
 
         <style type="text/css">
 
             * {
+                width: auto;
+                height: auto;
+
                 margin: 0px;
                 padding: 0px;
+                user-select: none;
             }
 
             body {
                 background-color: #000;
 
+                width: 100vw;
+                height: 100vh;
+
                 display: flex;
                 justify-content: center;
                 align-items: center;
 
-                width: 100vw;
-                height: 100vh;
+                flex-direction: column;
+                position: relative;
             }
 
             div {
-                width: auto;
-                height: auto;
-
                 color: #fff;
                 font-family: "Courier New", Courier, monospace;
                 white-space: pre;
 
-                font-size: 1em;
+                font-size: 0.8em;
+
+                width: auto;
+                height: auto;
+            }
+
+            div > div {
+                text-align: center;
+            }
+
+            .bottom {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-90%);
+
+                width: calc(32px + 6vw);
+
+                font-size: 0.75rem;
+            }
+
+
+            a:hover {
+                opacity: 1;
+            }
+
+            a {
+                opacity: 0.25;
+                transition: opacity linear .2s;
+
+
+                color: inherit;
+                text-decoration: none;
+            }
+
+            a > span {
+                float: right;
+                width: 5vw;
+            }
+
+            #git-image {
+                float: left;
+
+                display: block;
+                width: 32px;
+                height: 32px;
+                background-image: url(./GitHub-Mark-Light-32px.png);
             }
         </style>
     </head>
 
     <body dir="ltr">
-        <div>Loading...</div>
+        <div id="text-wrapper">
+            <div>Loading... <noscript>Try enabling javascript in your browser settings.</noscript></div>
+        </div>
+
+        <div class="bottom">
+            <a href="https://github.com/undefined06855/BrowserParrot">
+                <span id="git-image"></span>
+                <span>Github</span>
+            </a>
+        </div>
 
         <script type="text/javascript">
 
@@ -47,7 +108,7 @@
             .then(response => response = response.json())
             .then(response => main(response))
 
-            const buffer = document.querySelector("div")
+            const buffer = document.querySelector("div").querySelector("div")
                 , cols = [
                     "red",
                     "yellow",
@@ -60,6 +121,7 @@
 
             function main(frames)
             {
+                buffer.innerText = "";
                 setInterval(() => {
                     if (curframe == 10)
                     {
