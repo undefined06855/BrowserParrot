@@ -86,12 +86,17 @@
                 font-size: 0.8em;
 
                 position: fixed;
-
-                text-align: center;
             }
 
-            #bottom { bottom: 50px; }
-            #bottomLeft { bottom: 5px; left: 7px;}
+            #bottom {
+                bottom: 50px;
+                text-align: center;
+            }
+            #bottomLeft {
+                bottom: 5px;
+                left: 7px;
+                text-align: left;
+            }
 
             input[type="checkbox"] {
                 vertical-align: middle;
@@ -110,6 +115,9 @@
         <span id="bottomLeft">
             <input type="checkbox" onchange="buffer.style.fontSize=this.checked?'0.5em':'1em'" id="smallbox" />
             <label for="smallbox">small</label>
+            <br/>
+            <input type="checkbox" onchange="buffer.style.transform=this.checked?'scaleX(-1)':'scaleX(1)';document.getElementById('smallbox').click()" id="flipbox" />
+            <label for="flipbox">flipped</label>
         </span>
 
         <script>
