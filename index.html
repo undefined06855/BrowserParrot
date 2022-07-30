@@ -1,20 +1,29 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en" dir="ltr">
     <head>
         <title> Dancing parrot 🦜 </title>
 
         <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico?" />
 
-        <style type="text/css">
+        <!-- Meta stuff -->
+        <meta name="title" content="WebParrot">
+        <meta name="description" content="A simple dancing ASCII parrot on the web.">
+        <meta name="keywords" content="web, parrot, webparrot, dancing, rainbow, ASCII, text, html, javascript, css, hyper, text, markup, language">
+        <meta name="robots" content="index, follow">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="language" content="English">
+        <meta name="revisit-after" content="0 days">
+        <meta name="author" content="undefined06855">
+
+        <style>
 
             * {
-                width: auto;
-                height: auto;
-
                 margin: 0px;
                 padding: 0px;
                 user-select: none;
+
+                font-family: "Courier New", Courier, monospace;
             }
 
             body {
@@ -32,74 +41,49 @@
             }
 
             div {
-                color: #fff;
-                font-family: "Courier New", Courier, monospace;
                 white-space: pre;
 
                 font-size: 0.8em;
 
                 width: auto;
                 height: auto;
-            }
-
-            div > div {
+                
                 text-align: center;
             }
 
-            .bottom {
+            a {
+                display: block;
+
                 position: absolute;
                 bottom: 0;
-                left: 50%;
-                transform: translateX(-90%);
+                left: 0;
 
-                width: 122px; /* 32px image + 90px padding*/
+                width: 100vw;
+                height: 40px;
+                
+                background-image: url(./GitHub-Mark-Light-120px-plus.png);
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: 28px;
 
-                font-size: 0.75rem;
-            }
+                opacity: 0.1;
+                transition: opacity linear .15s;
 
-
-            a:hover {
-                opacity: 1;
-            }
-
-            a {
-                opacity: 0.25;
-                transition: opacity linear .2s;
-
-
-                color: inherit;
                 text-decoration: none;
             }
 
-            a > span {
-                float: right;
-                width: 5vw;
-            }
-
-            #git-image {
-                float: left;
-
-                display: block;
-                width: 32px;
-                height: 32px;
-                background-image: url(./GitHub-Mark-Light-32px.png);
-            }
+            a:hover { opacity: 1; }
         </style>
     </head>
 
-    <body dir="ltr">
+    <body>
         <div id="text-wrapper">
-            <div>Loading... <noscript>Try enabling javascript in your browser settings.</noscript></div>
+            <div>Something went wrong... <noscript>Try enabling javascript in your browser settings.</noscript></div>
         </div>
 
-        <div class="bottom">
-            <a href="https://github.com/undefined06855/BrowserParrot">
-                <span id="git-image"></span>
-                <span>Github</span>
-            </a>
-        </div>
+        <a href="https://github.com/undefined06855/BrowserParrot"></a>
 
-        <script type="text/javascript">
+        <script>
 
             var curframe = 0
               , curcol   = 0
@@ -119,17 +103,25 @@
                     "white"
                 ]
 
+            // https://stackoverflow.com/a/12646864
+            // Randomises color order
+            for(let i=cols.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cols[i],cols[j]]=[cols[j],cols[i]];}
+
+            buffer.innerText = "Loading parrot...";
+            buffer.style.color = cols[7]
+
             function main(frames)
             {
-                buffer.innerText = "";
-                setInterval(() => {
+                loopid = setInterval(() => {
                     if (curframe == 10)
                     {
                         curframe = 0;
+
                         curcol++;
+                        if (curcol == 7) curcol = 0
+                        buffer.style.color = cols[curcol];
                     }
-                    if (curcol == 7) curcol = 0
-                    buffer.style.color = cols[curcol];
+
                     buffer.innerText = frames["frame" + curframe];
                     curframe++;
                 }, 1000 / 15) // 15fps
