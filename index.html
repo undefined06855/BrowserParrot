@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title> Dancing parrot 🦜</title>
+
+        <style type="text/css">
+
+            * {
+                margin: 0px;
+                padding: 0px;
+            }
+
+            body {
+                background-color: #000;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                width: 100vw;
+                height: 100vh;
+            }
+
+            div {
+                width: auto;
+                height: auto;
+
+                color: #fff;
+                font-family: "Courier New", Courier, monospace;
+                white-space: pre;
+
+                font-size: 1em;
+            }
+        </style>
+    </head>
+
+    <body dir="ltr">
+        <div>Loading...</div>
+
+        <script type="text/javascript">
+
+            var curframe = 0
+              , curcol   = 0
+
+            reponse = fetch("./frames/frames.json")
+            .then(response => response = response.json())
+            .then(response => main(response))
+
+            const buffer = document.querySelector("div")
+                , cols = [
+                    "red",
+                    "yellow",
+                    "green",
+                    "blue",
+                    "magenta",
+                    "cyan",
+                    "white"
+                ]
+
+            function main(frames)
+            {
+                setInterval(() => {
+                    if (curframe == 10)
+                    {
+                        curframe = 0;
+                        curcol++;
+                    }
+                    if (curcol == 7) curcol = 0
+                    buffer.style.color = cols[curcol];
+                    buffer.innerText = frames["frame" + curframe];
+                    curframe++;
+                }, 1000 / 15) // 15fps
+            }
+
+        </script>
+    </body>
+</html>
