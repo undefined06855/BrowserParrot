@@ -106,16 +106,12 @@
                 color: rgba(255, 255, 255, 0.7);
             }
             
-            #bottomleft {
-                opacity: 1;
-            }
+            #bottomleft { opacity: 1; }
 
-            #resetbtn {
-                opacity: 0.7;
-            }
+            #resetbtn   { opacity: 0.7; }
 
             #resetbtn:hover::after {
-                content: " (double click)"
+                content: " (double click)";
             }
 
             .center {
@@ -128,7 +124,7 @@
 
     <body>
         <div id="text-wrapper">
-            <div style="font-size: 1em">Something went wrong... <noscript>Try enabling javascript in your browser settings.</noscript></div>
+            <div style="font-size: 0.75em">Something went wrong... <noscript>Try enabling javascript in your browser settings.</noscript></div>
         </div>
 
         <a title="Github Repo" rel="alternate external" href="https://github.com/undefined06855/BrowserParrot"></a>
@@ -138,7 +134,7 @@
             <span class="center">
                 <label for="sizeslider">Size:</label>
                 &nbsp;
-                <input type="range" min="10" max="200" value="100" oninput="buffer.style.fontSize = this.value / 100 + 'em'" id="sizeslider" />
+                <input type="range" min="10" max="200" value="75" oninput="buffer.style.fontSize = this.value / 100 + 'em'" id="sizeslider" />
                 &nbsp;
                 <span id="resetbtn">reset</span>
             </span>
@@ -163,7 +159,7 @@
 
         <script>
 
-            document.getElementById("bottom").innerText = "WebParrot 1.1\n" + navigator.userAgent;
+            document.getElementById("bottom").innerText = "WebParrot 1.2\n" + navigator.userAgent;
 
             var curframe = 0
               , curcol   = 0
@@ -179,7 +175,7 @@
             }, 500);
 
             document.getElementById("resetbtn").addEventListener("dblclick", event => {
-                document.getElementById("sizeslider").value = 100;
+                document.getElementById("sizeslider").value = 75;
                 document.getElementById("sizeslider").oninput();
             })
 
@@ -206,8 +202,13 @@
                         buffer.style.color = cols[curcol];
                     }
 
-                    buffer.innerText = animflip ? frames["frame" + curframe] : frames["frame" + (9 - curframe)];
-                    buffer.innerText = flipped 
+                    buffer.innerText = 
+                    animflip
+                    ? frames["frame" + curframe]
+                    : frames["frame" + (9 - curframe)];
+
+                    buffer.innerText = 
+                    flipped 
                     ? buffer.innerText.split("").reverse().join("").split("\n").reverse().join("\n")
                     : buffer.innerText
                     curframe++;
