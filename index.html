@@ -96,20 +96,31 @@
                 bottom: 50px;
                 text-align: center;
             }
+
             #bottomleft {
                 bottom: 7.5px;
                 left: 15px;
                 text-align: left;
                 font-size: 0.9em;
 
-                opacity: 1;
                 color: rgba(255, 255, 255, 0.7);
+            }
+            
+            #bottomleft {
+                opacity: 1;
+            }
+
+            #resetbtn {
+                opacity: 0.7;
+            }
+
+            #resetbtn:hover::after {
+                content: " (double click)"
             }
 
             .center {
                 display: flex;
                 align-items: center;
-                
             }
 
         </style>
@@ -125,14 +136,21 @@
         <span id="bottom"></span>
         <span id="bottomleft">
             <span class="center">
-                <label for="sizeslider">size:</label>
+                <label for="sizeslider">Size:</label>
                 &nbsp;
                 <input type="range" min="10" max="200" value="100" oninput="buffer.style.fontSize = this.value / 100 + 'em'" id="sizeslider" />
+                &nbsp;
+                <span id="resetbtn">reset</span>
             </span>
             <span class="center">
                 <input type="checkbox" onchange="flipped = this.checked" id="flipbox" />
                 &nbsp;
-                <label for="flipbox">flipped</label>
+                <label for="flipbox">Flipped</label>
+            </span>
+            <span class="center">
+                <input type="checkbox" onchange="animflip = this.checked" id="animbox" />
+                &nbsp;
+                <label for="animbox">Flip Animation</label>
             </span>
         </span>
 
@@ -150,13 +168,20 @@
             var curframe = 0
               , curcol   = 0
               , flipped  = false
+              , animflip = false
 
 
             setTimeout(() => {
                 reponse = fetch("./frames.json")
-                .then(response => response = response.json())
+                .then(response => response = response.json(),
+                      error    => buffer.innerText = "There was an error. Please reload the webpage!")
                 .then(response => main(response))
-            }, 500)
+            }, 500);
+
+            document.getElementById("resetbtn").addEventListener("dblclick", event => {
+                document.getElementById("sizeslider").value = 100;
+                document.getElementById("sizeslider").oninput();
+            })
 
 
             const cols = [
@@ -181,7 +206,7 @@
                         buffer.style.color = cols[curcol];
                     }
 
-                    buffer.innerText = frames["frame" + curframe];
+                    buffer.innerText = animflip ? frames["frame" + curframe] : frames["frame" + (9 - curframe)];
                     buffer.innerText = flipped 
                     ? buffer.innerText.split("").reverse().join("").split("\n").reverse().join("\n")
                     : buffer.innerText
