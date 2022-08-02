@@ -54,13 +54,17 @@
                 height: auto;
                 
                 text-align: center;
-                cursor: none;
+
+                transition: transform .5s ease-in-out;
+
+
+                display: inline-block;
             }
 
             a {
                 display: block;
 
-                position: absolute;
+                position: fixed;
                 bottom: 0;
                 left: 0;
 
@@ -83,7 +87,7 @@
 
             a:hover { opacity: 1; }
 
-            #bottom, #bottomleft {
+            #bottom, #topleft {
                 color: #fff;
                 opacity: 0.3;
 
@@ -94,23 +98,20 @@
 
             #bottom {
                 bottom: 50px;
-                text-align: center;
             }
 
-            #bottomleft {
-                bottom: 7.5px;
+            #topleft {
+                top: 7.5px;
                 left: 15px;
                 text-align: left;
                 font-size: 0.9em;
+                opacity: 1;
 
-                color: rgba(255, 255, 255, 0.7);
             }
             
-            #bottomleft { opacity: 1; }
+            .resetbtn   { opacity: 0.7; }
 
-            #resetbtn   { opacity: 0.7; }
-
-            #resetbtn:hover::after {
+            .resetbtn:hover::after {
                 content: " (double click)";
             }
 
@@ -124,19 +125,19 @@
 
     <body>
         <div id="text-wrapper">
-            <div style="font-size: 0.75em">Something went wrong... <noscript>Try enabling javascript in your browser settings.</noscript></div>
+            <div style="font-size: 1em">Something went wrong... <noscript>Try enabling javascript in your browser settings.</noscript></div>
         </div>
 
         <a title="Github Repo" rel="alternate external" href="https://github.com/undefined06855/BrowserParrot"></a>
 
         <span id="bottom"></span>
-        <span id="bottomleft">
+        <span id="topleft">
             <span class="center">
                 <label for="sizeslider">Size:</label>
                 &nbsp;
-                <input type="range" min="10" max="200" value="75" oninput="buffer.style.fontSize = this.value / 100 + 'em'" id="sizeslider" />
+                <input type="range" min="10" max="200" value="100" oninput="buffer.style.fontSize = this.value / 100 + 'em'" id="sizeslider" />
                 &nbsp;
-                <span id="resetbtn">reset</span>
+                <span class="resetbtn">reset</span>
             </span>
             <span class="center">
                 <input type="checkbox" onchange="flipped = this.checked" id="flipbox" />
@@ -147,6 +148,21 @@
                 <input type="checkbox" onchange="animflip = this.checked" id="animbox" />
                 &nbsp;
                 <label for="animbox">Flip Animation</label>
+            </span>
+            <br/><br/>
+            <span class="center">
+                <input type="checkbox" onchange="this.checked ? STARTPARTY() : stopparty()" id="partybox" />
+                &nbsp;
+                <label for="partybox">PARTY MODE</label>
+            </span>
+            <span id="hiddenslider" style="display: none;">
+                <span class="center">
+                    <label for="partyslider">Party scale:</label>
+                    &nbsp;
+                    <input type="range" min="5" max="300" value="100" oninput="partyscale = this.value / 100" id="partyslider" />
+                    &nbsp;
+                    <span class="resetbtn">reset</span>
+                </span>
             </span>
         </span>
 
@@ -161,11 +177,44 @@
 
             document.getElementById("bottom").innerText = "WebParrot 1.2\n" + navigator.userAgent;
 
-            var curframe = 0
-              , curcol   = 0
-              , flipped  = false
-              , animflip = false
+            var curframe    = 0
+              , curcol      = 0
+              , partyscale  = 1
+              , flipped     = false
+              , animflip    = false
 
+            function resetSize(el)
+            {
+                el.parentNode.querySelector("input").value = 100;
+                el.parentNode.querySelector("input").oninput();
+            }
+
+            function STARTPARTY()
+            {
+                // LETS GOOOO PARTTYYTYTY
+
+                document.getElementById("hiddenslider").style.display = "block";
+
+                partyi = setInterval(() => {
+                    buffer.style.transform = "skew(" + Math.random() * partyscale + "turn, " + Math.random() * partyscale + "turn)";
+                    curcol++;
+                    buffer.style.color = cols[curcol];
+                    if (curcol >= 7) curcol = 0
+                }, 500)
+            }
+
+            function stopparty()
+            {
+                // awww no partty :(
+
+                document.getElementById("hiddenslider").style.display = "none";
+
+                if (partyi != undefined)
+                {
+                    clearInterval(partyi);
+                    buffer.style.transform = ""
+                }
+            }
 
             setTimeout(() => {
                 reponse = fetch("./frames.json")
@@ -174,11 +223,9 @@
                 .then(response => main(response))
             }, 500);
 
-            document.getElementById("resetbtn").addEventListener("dblclick", event => {
-                document.getElementById("sizeslider").value = 75;
-                document.getElementById("sizeslider").oninput();
-            })
-
+            var btns = document.getElementsByClassName("resetbtn")
+            
+            Array.from(btns).forEach(e => e.addEventListener("dblclick", event => resetSize(e)));
 
             const cols = [
                     "red",
@@ -198,7 +245,7 @@
                         curframe = 0;
 
                         curcol++;
-                        if (curcol == 7) curcol = 0
+                        if (curcol >= 7) curcol = 0
                         buffer.style.color = cols[curcol];
                     }
 
@@ -206,6 +253,7 @@
                     animflip
                     ? frames["frame" + curframe]
                     : frames["frame" + (9 - curframe)];
+                    
 
                     buffer.innerText = 
                     flipped 
