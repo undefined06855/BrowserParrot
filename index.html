@@ -61,21 +61,33 @@
                 display: inline-block;
             }
 
+            #link-wrapper {
+                position: fixed;
+                bottom: 3px;
+                left: 0;
+
+                height: 27.5px;
+                width: 100vw;
+
+                display: flex;
+                justify-content: center;
+            }
+
             a {
                 display: block;
 
-                position: fixed;
-                bottom: 0;
-                left: 0;
+                margin: 0px;
 
-                width: 25vw;
-                transform: translateX(37.5vw);
-                height: 40px;
+                width: 27.5px;
+                height: 27.5px;
+
+                position: absolute;
+                top: 0;
                 
                 background-image: url(./GitHub-Mark-Light-120px-plus.png);
                 background-position: center center;
                 background-repeat: no-repeat;
-                background-size: 28px;
+                background-size: 27.5px;
 
                 opacity: 0.1;
                 transition: opacity linear .15s;
@@ -128,7 +140,9 @@
             <div style="font-size: 1em">Something went wrong... <noscript>Try enabling javascript in your browser settings.</noscript></div>
         </div>
 
-        <a title="Github Repo" rel="alternate external" href="https://github.com/undefined06855/BrowserParrot"></a>
+        <div id="link-wrapper">
+            <a title="Github Repo" rel="alternate external" href="https://github.com/undefined06855/BrowserParrot"></a>
+        </div>
 
         <span id="bottom"></span>
         <span id="topleft">
@@ -167,13 +181,10 @@
         </span>
 
         <script>
-            const buffer = document.querySelector("div").querySelector("div")
+            const buffer = document.querySelector("div").querySelector("div");
 
             buffer.innerText = "Loading parrot...";
             buffer.style.color = "red";
-        </script>
-
-        <script>
 
             document.getElementById("bottom").innerText = "WebParrot 1.2\n" + navigator.userAgent;
 
